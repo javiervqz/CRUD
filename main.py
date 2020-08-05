@@ -2,14 +2,14 @@ import sys
 
 clients = [
     {
-        'name':"Diana",
-        'company':"Casa Inc",
-        'position':"La boss"
+        'name':"Javier Vazquez",
+        'company':"AZ",
+        'position':"Sr Tech Analyst"
     },
     {
-        'name':"Max",
-        'company':"Casa Inc",
-        'position': "El chiki baiby"
+        'name':"Diana Porras",
+        'company':"Design Media",
+        'position': "Sr Designer"
     }
 
 ]
