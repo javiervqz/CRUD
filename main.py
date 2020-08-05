@@ -24,15 +24,18 @@ def create_client(client):
 
 def list_clients():
     for idx, client in enumerate(clients):
-        print('{}: {}'.format(idx,client['name']))
+        print('{uid} | {name} | {company} | {position}'.format(
+            uid = idx,
+            name = client['name'],
+            company = client['company'],
+            position = client['position']
+            ))
 
-def update_client(client_name, updated_name):
+def update_client(idx, updated_name):
     global clients
-    if client_name in clients:
-        index = clients.index(client_name)
-        clients[index] = client_name
-    else:
-        print ('Client not in list')
+    clients[idx].update({'name': updated_name})
+
+
 
 def delete_client(client_name):
     global clients
@@ -78,12 +81,21 @@ def _get_client_name():
 
     return client_name
 
+
+def _get_client_index_by_name():
+    client_name = _get_client_name()
+    for key, client in enumerate(clients):
+        if client['name'] == client_name:
+            return key
+        else:
+            print('client not found')
+
 def _print_welcome():
     print('Welcome to StuffVentas')
     print ('*'*20+'Hello Ppl'+'*'*20)
     print ('What ya want?')
     print ('[C]reate client\n')
-    print ('[L]ist clients\n')
+    print ('[R]ead clients\n')
     print ('[U]pdate client\n')
     print ('[D]elete client\n')
     print ('[S]earch client\n')
@@ -91,8 +103,7 @@ def _print_welcome():
 if __name__ == '__main__':
     _print_welcome()
 
-    command = input()
-    command = command.upper()
+    command = input().upper()
 
     if command == 'C':
         client = {
@@ -102,14 +113,21 @@ if __name__ == '__main__':
             }
         create_client(client)
         list_clients()
-    elif command == 'L':
+    elif command == 'R':
         list_clients()
     elif command == 'U':
-        client_name = _get_client_name()
-        updated_client_name = input('What is the updated client name')
+        idx = _get_client_index_by_name()
+        updated_name = input('What is the new name?\n')
+        update_client(idx,updated_name)
+
+        list_clients()
+        
+
+        pass
     elif command == 'D':
         client_name = _get_client_name()
         delete_client(client_name)
+        list_clients()
     elif command == 'S':
         client_name = _get_client_name()
         found = search_client(client_name)
