@@ -37,21 +37,11 @@ def update_client(idx, updated_name):
 
 
 
-def delete_client(client_name):
+def delete_client(idx):
     global clients
-
-    if client_name in clients:
-        clients.remove(client_name)
-    else:
-        print('Client is not in client list')
+    clients.pop(idx)
 
 
-def search_client(client_name):
-    for client in clients :
-        if client != client_name:
-            continue
-        else:
-            return True
 
 def _get_client_field(field_name):
     field = None
@@ -84,11 +74,14 @@ def _get_client_name():
 
 def _get_client_index_by_name():
     client_name = _get_client_name()
+    idx = None
     for key, client in enumerate(clients):
         if client['name'] == client_name:
-            return key
-        else:
-            print('client not found')
+            idx = key
+    if idx:
+        return idx
+    else :
+        return client_name
 
 def _print_welcome():
     print('Welcome to StuffVentas')
@@ -125,15 +118,15 @@ if __name__ == '__main__':
 
         pass
     elif command == 'D':
-        client_name = _get_client_name()
-        delete_client(client_name)
+        idx = _get_client_index_by_name()
+        delete_client(idx)
         list_clients()
     elif command == 'S':
-        client_name = _get_client_name()
-        found = search_client(client_name)
-        if found:
-            print ('Clients exists')
+        Found = str(_get_client_index_by_name())
+
+        if Found.isdigit():
+            print ('Clients exists, index {}'.format(Found))
         else:
-            print ('Client {} not in list'.format(client_name))
+            print ('Client "{}" not in list'.format(Found))
     else:
         print('Invalid comand')
