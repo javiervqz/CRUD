@@ -1,21 +1,27 @@
-import sys
+import sys, csv, os
 
-clients = [
-    {
-        'name':"Javier Vazquez",
-        'company':"AZ",
-        'position':"Sr Tech Analyst"
-    },
-    {
-        'name':"Diana Porras",
-        'company':"Design Media",
-        'position': "Sr Designer"
-    }
+CLIENT_TABLE = '.clients.csv'
+CLIENT_SCHEMA = ['name','company','position']
+clients = []
 
-]
+def _initialize_clients_from_storage():
+    #Context Manager
+    with open(CLIENT_TABLE, mode='r') as f:
+        reader = csv.DictReader(f,fieldnames=CLIENT_SCHEMA)
+        for row in reader:
+            clients.append(row) 
+
+def _save_clients_to_storage():
+    tmp_table_name = '{}.tmp'.format(CLIENT_TABLE)
+    with open(tmp_table_name, mode='w') as f:
+        writer = csv.DictWriter(f,fieldnames=CLIENT_SCHEMA)
+        writer.writerows(clients)
+        os.remove(CLIENT_TABLE)
+        os.rename(tmp_table_name,CLIENT_TABLE)
+
 
 def create_client(client):
-  #  global clientsUnboundLocalError: local variable 'clients' referenced before assignment
+#  global clientsUnboundLocalError: local variable 'clients' referenced before assignment
     global clients #It needs to take the variable from "outside" or error above occurs 
     if client not in clients:
         clients.append(client)
@@ -94,6 +100,7 @@ def _print_welcome():
     print ('[S]earch client\n')
 
 if __name__ == '__main__':
+    _initialize_clients_from_storage()
     _print_welcome()
 
     command = input().upper()
@@ -105,22 +112,17 @@ if __name__ == '__main__':
             'position':_get_client_field('position')
             }
         create_client(client)
-        list_clients()
+
     elif command == 'R':
         list_clients()
     elif command == 'U':
         idx = _get_client_index_by_name()
         updated_name = input('What is the new name?\n')
         update_client(idx,updated_name)
-
-        list_clients()
-        
-
-        pass
+       
     elif command == 'D':
         idx = _get_client_index_by_name()
         delete_client(idx)
-        list_clients()
     elif command == 'S':
         Found = str(_get_client_index_by_name())
 
@@ -130,3 +132,4 @@ if __name__ == '__main__':
             print ('Client "{}" not in list'.format(Found))
     else:
         print('Invalid comand')
+    _save_clients_to_storage()
