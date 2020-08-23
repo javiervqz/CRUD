@@ -8,3 +8,6 @@ This will create and system in which you'll be able to Create a DataBase, Read f
 * [R] Reads from whatever is stored in the list "Clients" givin it a readable format 
 * [U] Search by name and updating such name
 * [D] Delete client by name
+
+## V.2
+![Alt text](v2.png)
