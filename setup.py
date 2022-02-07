@@ -7,6 +7,9 @@ setup(
     author = 'Javier Vazquez',
     author_email = 'jvrvzqzp@gmail.com',
     description = ('CRUD to practice the best way to deliver software professionally'),
+    ##py_modules=['pv','clients.commands','clients.models','clients.services'],
+    packages = ['clients'],
+    package_dir = {'':'src'},
     py_modules=['pv'],
     install_requires=[
                     'Click',
