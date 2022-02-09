@@ -1,8 +1,6 @@
-*png
-__pycache__/
-crud_Env/
 *.csv
-.gitignore
+crud_Env/
+__pycache__/
 *egg-info*
 
 
